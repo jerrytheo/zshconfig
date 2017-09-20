@@ -3,40 +3,70 @@
 ## Author: Jerry
 ##
 
-# Return code
-local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
-
-# Username and Hostname
-if [[ $UID -eq 0 ]]; then
-    local user_host='%{$terminfo[bold]$fg[red]%}%n@%m%{$reset_color%}'
-    local user_symbol='%(?:%{$fg_bold[green]%}# :%{$fg_bold[red]%}# )'
-else
-    local user_host='%{$terminfo[bold]$fg[black]%}%n$fg[red]@%m%{$reset_color%}'
-    local user_symbol='%(?:%{$fg_bold[green]%}⇒ :%{$fg_bold[red]%}⇒ )'
-fi
-
-# Directory
-local current_dir='%{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}'
-
 # Git settings [(±) master ▾ ●]
-ZSH_THEME_GIT_PROMPT_PREFIX="on %{$fg_bold[green]%}(\ue0a0) %{$reset_color%}%{$fg_bold[white]%}"
+ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg_bold[green]%}(\ue0a0) %{$reset_color%}%{$fg_bold[white]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%} ✓%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[red]%} ✘%{$reset_color%}"
+
+ZSH_THEME_GIT_PROMPT_ADDED=" +"
+ZSH_THEME_GIT_PROMPT_MODIFIED=" !"
+ZSH_THEME_GIT_PROMPT_RENAMED=" »"
+ZSH_THEME_GIT_PROMPT_DELETED=" ✕"
+ZSH_THEME_GIT_PROMPT_STASHED=" $"
+ZSH_THEME_GIT_PROMPT_UNMERGED=" ="
+ZSH_THEME_GIT_PROMPT_DIVERGED=" ⇕"
+
 ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[cyan]%} ▴%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[magenta]%} ▾%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg_bold[green]%} ●%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg_bold[yellow]%} ●%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[red]%} ●%{$reset_color%}"
 
-local git_branch='$(git_prompt_info)%{$reset_color%}'
-
 # Virtualenv settings {<venv>}.
 ZSH_THEME_VIRTUALENV_PREFIX="%{$fg_bold[magenta]%}{"
 ZSH_THEME_VIRTUALENV_SUFFIX="%{$reset_color%}} "
 
 
-# Battery
-battery_and_time_prompt() {
+# User & Hostname
+somber_user() {
+    local user
+    if [[ $UID -eq 0 ]]; then
+        user='%{$terminfo[bold]$fg[red]%}%n '
+    elif [[ $SSH_CONNECTION ]]; then
+        user='%{$terminfo[bold]$fg[green]%}%n'
+    else
+        user=''
+    fi
+    echo -n $user
+}
+
+somber_host() {
+    local host
+    if [[ $SSH_CONNECTION ]]; then
+        host='%{$terminfo[bold]$fg[black]%}@%m%{$reset_color%} '
+    else
+        host=''
+    fi
+    echo -n $host
+}
+
+somber_dir() {
+    local current_dir
+    current_dir='in %{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}'
+    echo -n $current_dir
+}
+
+somber_git() {
+    local git_branch
+    git_branch='$(git_prompt_info)%{$reset_color%}'
+    echo -n $git_branch
+}
+
+somber_battery_date() {
+    local battery_info
+
     data=$(acpi -b 2>/dev/null)
     reset="%{$reset_color%}"
 
@@ -67,8 +97,21 @@ battery_and_time_prompt() {
         percent="$pcolor$percent$charge%%$reset"
     fi
 
+    battery_info="%B[$percent at %{$fg_bold[black]%}$(date +%R)%{$reset%}]%b"
+    echo -n $battery_info
+}
+
+somber_temperature() {
+    local temperature
+
+    data=$(acpi -t 2>/dev/null)
+    reset="%{$reset_color%}"
+
+    # Return if no battery
+    [[ -z $data ]] && return
+
     # Battery temperature
-    temp="$( echo $(acpi -t) | awk '{print $4}' )"
+    temp="$( echo ${data} | awk '{print $4}' )"
     if [[ "$( echo "${temp} < 55.0" | bc )" -eq 1 ]]; then
         tcolor="%{$fg_bold[green]%}"
     elif [[ "$( echo "${temp} < 70.0" | bc )" -eq 1 ]]; then
@@ -77,12 +120,35 @@ battery_and_time_prompt() {
         tcolor="%{$fg_bold[red]%}"
     fi
 
-    temp="[$tcolor$temp °C$reset]"
-    echo -n "%B[$percent at %{$fg_bold[black]%}$(date +%R)%{$reset_color%}] $temp%b"
+    temperature="%B[$tcolor$temp °C$reset]%b"
+    echo -n " $temperature"
 }
 
-# Main prompt
-PROMPT="
-${user_host} in ${current_dir} ${git_branch}
-%B${virtualenv_prompt_info}${user_symbol}%b "
-RPROMPT='$(battery_and_time_prompt)'
+somber_prompt_sym() {
+    local user_symbol
+    if [[ $UID -eq 0 ]]; then
+        user_symbol='%(?:%{$fg_bold[green]%}# :%{$fg_bold[red]%}# )%{$reset_color%}'
+    else
+        user_symbol='%(?:%{$fg_bold[green]%}⇒ :%{$fg_bold[red]%}⇒ )%{$reset_color%}'
+    fi
+    echo -n $user_symbol
+}
+
+forward_prompt() {
+    local prompt user_host
+    user_host="$(somber_user)$(somber_host)"
+    prompt="${user_host}$(somber_dir)$(somber_git)"
+    if [[ -n $user_host ]]; then
+        prompt="$( echo $prompt )"
+        prompt="${prompt}${virtualenv_prompt_info} $(somber_prompt_sym) "
+    fi
+    prompt="${virtualenv_prompt_info}${prompt} $(somber_prompt_sym) "
+    echo -n $prompt
+}
+
+reverse_prompt() {
+    echo -n "$(somber_battery_date)$(somber_temperature)"
+}
+
+PROMPT="$(forward_prompt)"
+RPROMPT="$(reverse_prompt)"
