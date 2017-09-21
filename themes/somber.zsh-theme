@@ -147,7 +147,7 @@ forward_prompt() {
 }
 
 reverse_prompt() {
-    echo -n "$(somber_battery_date)$(somber_temperature)"
+    echo -n '$(somber_battery_date)$(somber_temperature)'
 }
 
 PROMPT="$(forward_prompt)"
