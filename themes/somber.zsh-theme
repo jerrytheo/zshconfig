@@ -117,9 +117,9 @@ somber_battery() {
         stat=$(echo $data | awk '{print tolower($3)}' | cut -d, -f1)
         if [[ $stat == "charging" ]]; then
             pcolor="${grn}"
-            charge='⇡'
+            charge='↟'
         else
-            charge='⇣'
+            charge='↡'
         fi
         percent="${percent}${charge}%%"
     fi
