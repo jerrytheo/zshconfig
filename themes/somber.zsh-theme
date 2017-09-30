@@ -3,41 +3,62 @@
 ## Author: Jerry
 ##
 
+# Colors
+blk="%{$fg[black]%}"
+red="%{$fg[red]%}"
+grn="%{$fg[green]%}"
+ylw="%{$fg[yellow]%}"
+blu="%{$fg[blue]%}"
+mgt="%{$fg[magenta]%}"
+cyn="%{$fg[cyan]%}"
+wht="%{$fg[white]%}"
+
+blk_bold="%{$fg_bold[black]%}"
+red_bold="%{$fg_bold[red]%}"
+grn_bold="%{$fg_bold[green]%}"
+ylw_bold="%{$fg_bold[yellow]%}"
+blu_bold="%{$fg_bold[blue]%}"
+mgt_bold="%{$fg_bold[magenta]%}"
+cyn_bold="%{$fg_bold[cyan]%}"
+wht_bold="%{$fg_bold[white]%}"
+
+reset="%{$reset_color%}"
+
 # Git settings [(±) master ▾ ●]
-ZSH_THEME_GIT_PROMPT_PREFIX=" on %{$fg_bold[green]%}(\ue0a0) %{$reset_color%}%{$fg_bold[white]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_PREFIX="${grn_bold}\ue0a0 ${wht}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="${reset} "
 
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%} ✓%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[red]%} ✘%{$reset_color%}"
+#ZSH_THEME_GIT_PROMPT_CLEAN=" (${grn}✓ ${reset})"
+#ZSH_THEME_GIT_PROMPT_DIRTY="${red}✘${reset}"
 
-ZSH_THEME_GIT_PROMPT_ADDED=" +"
-ZSH_THEME_GIT_PROMPT_MODIFIED=" !"
-ZSH_THEME_GIT_PROMPT_RENAMED=" »"
-ZSH_THEME_GIT_PROMPT_DELETED=" ✕"
-ZSH_THEME_GIT_PROMPT_STASHED=" $"
-ZSH_THEME_GIT_PROMPT_UNMERGED=" ="
-ZSH_THEME_GIT_PROMPT_DIVERGED=" ⇕"
+ZSH_THEME_GIT_PROMPT_ADDED="${blu}+${reset}"
+ZSH_THEME_GIT_PROMPT_MODIFIED="${ylw_bold}!${reset}"
+ZSH_THEME_GIT_PROMPT_RENAMED="${mgt_bold}»${reset}"
+ZSH_THEME_GIT_PROMPT_DELETED="${red_bold}✕${reset}"
+ZSH_THEME_GIT_PROMPT_STASHED="$"
+ZSH_THEME_GIT_PROMPT_UNMERGED="="
+ZSH_THEME_GIT_PROMPT_DIVERGED="${red_bold}⇕${reset}"
 
-ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[cyan]%} ▴%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[magenta]%} ▾%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_STAGED="%{$fg_bold[green]%} ●%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg_bold[yellow]%} ●%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[red]%} ●%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_AHEAD="${cyn}▴${reset}"
+ZSH_THEME_GIT_PROMPT_BEHIND="${mgt}▾${reset}"
+ZSH_THEME_GIT_PROMPT_STAGED="${grn}●${reset}"
+ZSH_THEME_GIT_PROMPT_UNSTAGED="${ylw}●${reset}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="${red}●${reset}"
 
 # Virtualenv settings {<venv>}.
-ZSH_THEME_VIRTUALENV_PREFIX="%{$fg_bold[magenta]%}{"
-ZSH_THEME_VIRTUALENV_SUFFIX="%{$reset_color%}} "
+ZSH_THEME_VIRTUALENV_PREFIX="${mgt_bold}<<"
+ZSH_THEME_VIRTUALENV_SUFFIX=">>${reset} "
 
 
 # User & Hostname
 somber_user() {
     local user
     if [[ $UID -eq 0 ]]; then
-        user='%{$terminfo[bold]$fg[red]%}%n '
+        user="${red_bold}%n "
     elif [[ $SSH_CONNECTION ]]; then
-        user='%{$terminfo[bold]$fg[green]%}%n'
+        user="${grn_bold}%n"
     else
-        user=''
+        user=""
     fi
     echo -n $user
 }
@@ -45,59 +66,64 @@ somber_user() {
 somber_host() {
     local host
     if [[ $SSH_CONNECTION ]]; then
-        host='%{$terminfo[bold]$fg[black]%}@%m%{$reset_color%} '
+        host="${blk_bold}@%m${reset} "
     else
-        host=''
+        host=""
     fi
     echo -n $host
 }
 
 somber_dir() {
     local current_dir
-    current_dir='in %{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}'
+    current_dir="in ${ylw_bold}{${$(basename $PWD)/$USER/~}}${reset}"
     echo -n $current_dir
 }
 
 somber_git() {
-    local git_branch
-    git_branch='$(git_prompt_info)%{$reset_color%}'
-    echo -n $git_branch
+    local git_branch git_status
+    [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) ]] || return
+
+    git_branch="$(git_prompt_info)"
+
+    git_status="$(git_prompt_status)"
+    git_prompt="[ ${git_branch}${wht_bold}${git_status:-${grn_bold}✓${wht_bold}} ${reset}] "
+    echo -n $git_prompt
 }
 
-somber_battery_date() {
+somber_battery() {
     local battery_info
 
     data=$(acpi -b 2>/dev/null)
-    reset="%{$reset_color%}"
+    reset="${reset}"
 
     # Return if no battery
     [[ -z $data ]] && return
 
     # Battery percentage
     if [[ $(echo $data | grep "Full") ]]; then
-        percent="%{$fg_bold[green]%}A.C.$reset"
+        percent="${grn}A.C.${reset}"
     else
-        percent="$( echo $data | awk '{print $4}' | tr -d ,% )"
+        percent=$(echo $data | awk '{print $4}' | tr -d ,%)
         if [[ $percent -gt 60 ]]; then
-            pcolor="%{$fg_bold[green]%}"
+            pcolor="${grn}"
         elif [[ $percent -gt 20 ]]; then
-            pcolor="%{$fg_bold[yellow]%}"
+            pcolor="${ylw}"
         else
-            pcolor="%{$fg_bold[red]%}"
+            pcolor="${red}"
         fi
 
         # Battery charge status
-        stat="$( echo $data | awk '{print tolower($3)}' | cut -d, -f1 )"
+        stat=$(echo $data | awk '{print tolower($3)}' | cut -d, -f1)
         if [[ $stat == "charging" ]]; then
-            pcolor="%{$fg_bold[green]%}"
-            charge="⇡"
+            pcolor="${grn}"
+            charge='⇡'
         else
-            charge="⇣"
+            charge='⇣'
         fi
-        percent="$pcolor$percent$charge%%$reset"
+        percent="${pcolor}${percent}${charge}%%${reset}"
     fi
 
-    battery_info="%B[$percent at %{$fg_bold[black]%}$(date +%R)%{$reset%}]%b"
+    battery_info="${percent}"
     echo -n $battery_info
 }
 
@@ -105,49 +131,43 @@ somber_temperature() {
     local temperature
 
     data=$(acpi -t 2>/dev/null)
-    reset="%{$reset_color%}"
+    reset="${reset}"
 
     # Return if no battery
     [[ -z $data ]] && return
 
     # Battery temperature
-    temp="$( echo ${data} | awk '{print $4}' )"
-    if [[ "$( echo "${temp} < 55.0" | bc )" -eq 1 ]]; then
-        tcolor="%{$fg_bold[green]%}"
-    elif [[ "$( echo "${temp} < 70.0" | bc )" -eq 1 ]]; then
-        tcolor="%{$fg_bold[yellow]%}"
+    temp=$( echo ${data} | awk '{print $4}' )
+    if [[ $( echo "${temp} < 55.0" | bc ) -eq 1 ]]; then
+        tcolor="${grn}"
+    elif [[ $( echo "${temp} < 70.0" | bc ) -eq 1 ]]; then
+        tcolor="${ylw}"
     else
-        tcolor="%{$fg_bold[red]%}"
+        tcolor="${red}"
     fi
-
-    temperature="%B[$tcolor$temp °C$reset]%b"
-    echo -n " $temperature"
+    temp=$(echo $temp | python -c "print(round(float(input())), end='')")
+    temperature="${tcolor}${temp}°${reset}"
+    echo -n $temperature
 }
 
 somber_prompt_sym() {
     local user_symbol
     if [[ $UID -eq 0 ]]; then
-        user_symbol='%(?:%{$fg_bold[green]%}# :%{$fg_bold[red]%}# )%{$reset_color%}'
+        user_symbol="%(?:${grn_bold}# :${red}# )${reset}"
     else
-        user_symbol='%(?:%{$fg_bold[green]%}⇒ :%{$fg_bold[red]%}⇒ )%{$reset_color%}'
+        user_symbol="%(?:${grn_bold}➜ :${red}➜ )${reset}"
     fi
     echo -n $user_symbol
 }
 
 forward_prompt() {
-    local prompt user_host
-    user_host="$(somber_user)$(somber_host)"
-    prompt="${user_host}$(somber_dir)$(somber_git)"
-    if [[ -n $user_host ]]; then
-        prompt="$( echo $prompt )"
-        prompt="${prompt}${virtualenv_prompt_info} $(somber_prompt_sym) "
-    fi
-    prompt="${virtualenv_prompt_info}${prompt} $(somber_prompt_sym) "
+    local prompt
+    prompt='[$(somber_battery)] $(somber_user)$(somber_host)$(somber_dir) $(somber_prompt_sym) $(virtualenv_prompt_info)'
     echo -n $prompt
 }
 
 reverse_prompt() {
-    echo -n '$(somber_battery_date)$(somber_temperature)'
+    echo -n '$(somber_git)[$(somber_temperature)]'
 }
 
 PROMPT="$(forward_prompt)"

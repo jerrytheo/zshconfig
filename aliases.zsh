@@ -9,7 +9,7 @@ alias vi='vim'
 alias clrz='colorize'
 alias py='python'
 
-if [[ $UID -eq 0 ]]; then
+if [[ $UID -ne 0 ]]; then
     alias svim='sudo vim'
     alias ipy='ipython'
     alias pipi='pip intall --user'
