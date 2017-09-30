@@ -75,7 +75,7 @@ somber_host() {
 
 somber_dir() {
     local current_dir
-    current_dir="${ylw_bold}{${wht_bold}in ${reset}${ylw_bold}${$(basename $PWD)/$USER/~}}${reset}"
+    current_dir="${ylw}{${wht_bold}in ${reset}${ylw}${$(basename $PWD)/$USER/~}}${reset}"
     echo -n $current_dir
 }
 
@@ -156,7 +156,7 @@ somber_prompt_sym() {
     if [[ $UID -eq 0 ]]; then
         user_symbol="%(?:${cyn}#:${red}#)${reset}"
     else
-        user_symbol="%(?:${cyn}🛨 :${red}💥)${reset}"
+        user_symbol="%(?:${cyn}🛫:${red}🛬)${reset}"
     fi
     echo -n $user_symbol
 }
@@ -172,4 +172,12 @@ reverse_prompt() {
 }
 
 PROMPT="$(forward_prompt)"
-RPROMPT="$(reverse_prompt)"
+RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(reverse_prompt)"
+
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT_CMD="${red_bold} [% CMND]% ${reset}"
+    VIM_PROMPT_INS="${blu_bold} [% EDIT]% ${reset}"
+    PROMPT="$(forward_prompt)"
+    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT_CMD}/(main|viins)/$VIM_PROMPT_INS} $(reverse_prompt)"
+    zle reset-prompt
+}
