@@ -1,5 +1,5 @@
-# Jerry's zsh config folder.
-
+# Jerry's Somber configuration.
+My zsh configs for a laptop.
 > Prerequisite: [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh)
 
 ## Instructions
