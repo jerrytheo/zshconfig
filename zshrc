@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 ##
 ## Jerry's zsh config file.
 ## Requires: oh-my-zsh
@@ -17,22 +19,27 @@ ZSH_CUSTOM=$HOME/.zsh
 
 # Plugins
 plugins=(
-    archlinux           # pacman, pacaur aliases; pacdisowned, paclist
     battery             # convenient functions for prompt.
     colored-man-pages   # as it says.
     colorize            # colorized cat.
-    command-not-found   # suggest new command.
     cp                  # cp with progress (rsync)
+    vi-mode             # some stuff.
+    web-search          # search online.
+)
+
+plugins_non_root=(
+    archlinux           # pacman, pacaur aliases; pacdisowned, paclist
+    command-not-found   # suggest new command.
     extract             # swiss army knife (or so they say).
     git                 # way too many to bother.
     kate                # kate, kt.
     pip                 # clean cache, list clean pkgs.
     python              # pyfind, pyclean, pygrep.
-    vi-mode             # some stuff.
     virtualenv          # virtualenv on prompt.
     virtualenvwrapper   # workon_cwd
-    web-search          # search online.
 )
+
+[[ $UID -ne 0 ]] && plugins=($plugins[@] $plugins_non_root[@])
 source $ZSH/oh-my-zsh.sh
 
 # =====
