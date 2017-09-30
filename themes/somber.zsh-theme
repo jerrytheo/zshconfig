@@ -33,7 +33,7 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="${reset} "
 
 ZSH_THEME_GIT_PROMPT_ADDED="${blu}+${reset}"
 ZSH_THEME_GIT_PROMPT_MODIFIED="${ylw_bold}!${reset}"
-ZSH_THEME_GIT_PROMPT_RENAMED="${mgt_bold}»${reset}"
+ZSH_THEME_GIT_PROMPT_RENAMED="${ylw}»${reset}"
 ZSH_THEME_GIT_PROMPT_DELETED="${red_bold}✕${reset}"
 ZSH_THEME_GIT_PROMPT_STASHED="$"
 ZSH_THEME_GIT_PROMPT_UNMERGED="="
@@ -54,9 +54,9 @@ ZSH_THEME_VIRTUALENV_SUFFIX=">>${reset} "
 somber_user() {
     local user
     if [[ $UID -eq 0 ]]; then
-        user="${red_bold}%n "
+        user="${red_bold}%n${reset}"
     elif [[ $SSH_CONNECTION ]]; then
-        user="${grn_bold}%n"
+        user="${blu_bold}%n${reset}"
     else
         user=""
     fi
@@ -66,7 +66,7 @@ somber_user() {
 somber_host() {
     local host
     if [[ $SSH_CONNECTION ]]; then
-        host="${blk_bold}@%m${reset} "
+        host="${blk_bold}(@%m)${reset} "
     else
         host=""
     fi
@@ -75,7 +75,7 @@ somber_host() {
 
 somber_dir() {
     local current_dir
-    current_dir="in ${ylw_bold}{${$(basename $PWD)/$USER/~}}${reset}"
+    current_dir="${ylw_bold}{${wht_bold}in ${reset}${ylw_bold}${$(basename $PWD)/$USER/~}}${reset}"
     echo -n $current_dir
 }
 
@@ -101,7 +101,8 @@ somber_battery() {
 
     # Battery percentage
     if [[ $(echo $data | grep "Full") ]]; then
-        percent="${grn}A.C.${reset}"
+        pcolor=${grn}
+        percent="A.C."
     else
         percent=$(echo $data | awk '{print $4}' | tr -d ,%)
         if [[ $percent -gt 60 ]]; then
@@ -120,10 +121,10 @@ somber_battery() {
         else
             charge='⇣'
         fi
-        percent="${pcolor}${percent}${charge}%%${reset}"
+        percent="${percent}${charge}%%"
     fi
 
-    battery_info="${percent}"
+    battery_info="${pcolor}[${wht_bold}on ${pcolor}${percent}]${reset}"
     echo -n $battery_info
 }
 
@@ -153,16 +154,16 @@ somber_temperature() {
 somber_prompt_sym() {
     local user_symbol
     if [[ $UID -eq 0 ]]; then
-        user_symbol="%(?:${grn_bold}# :${red}# )${reset}"
+        user_symbol="%(?:${cyn}# :${red}# )${reset}"
     else
-        user_symbol="%(?:${grn_bold}➜ :${red}➜ )${reset}"
+        user_symbol="%(?:${cyn}➜ :${red}➜ )${reset}"
     fi
     echo -n $user_symbol
 }
 
 forward_prompt() {
     local prompt
-    prompt='[$(somber_battery)] $(somber_user)$(somber_host)$(somber_dir) $(somber_prompt_sym) $(virtualenv_prompt_info)'
+    prompt='$(somber_battery) $(somber_user)$(somber_host)$(somber_dir) $(somber_prompt_sym) $(virtualenv_prompt_info)'
     echo -n $prompt
 }
 
