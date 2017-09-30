@@ -175,9 +175,8 @@ PROMPT="$(forward_prompt)"
 RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(reverse_prompt)"
 
 function zle-line-init zle-keymap-select {
-    VIM_PROMPT_CMD="${red_bold} [% CMND]% ${reset}"
-    VIM_PROMPT_INS="${blu_bold} [% EDIT]% ${reset}"
+    VIM_PROMPT="${red_bold}[cmd]${reset}"
     PROMPT="$(forward_prompt)"
-    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT_CMD}/(main|viins)/$VIM_PROMPT_INS} $(reverse_prompt)"
+    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(reverse_prompt)"
     zle reset-prompt
 }
