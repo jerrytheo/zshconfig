@@ -35,12 +35,12 @@ ZSH_THEME_GIT_PROMPT_ADDED="${blu}✚${reset}"
 ZSH_THEME_GIT_PROMPT_MODIFIED="${ylw_bold}✹${reset}"
 ZSH_THEME_GIT_PROMPT_RENAMED="${ylw}➦${reset}"
 ZSH_THEME_GIT_PROMPT_DELETED="${red_bold}✖${reset}"
-ZSH_THEME_GIT_PROMPT_STASHED="$"
-ZSH_THEME_GIT_PROMPT_UNMERGED="="
+ZSH_THEME_GIT_PROMPT_STASHED="☰"
+ZSH_THEME_GIT_PROMPT_UNMERGED="⇉"
 ZSH_THEME_GIT_PROMPT_DIVERGED_REMOTE="${red_bold}↕${reset}"
 
-ZSH_THEME_GIT_PROMPT_AHEAD="${cyn}▴${reset}"
-ZSH_THEME_GIT_PROMPT_BEHIND="${mgt}▾${reset}"
+ZSH_THEME_GIT_PROMPT_AHEAD="${cyn}⬆${reset}"
+ZSH_THEME_GIT_PROMPT_BEHIND="${mgt}⬇${reset}"
 #ZSH_THEME_GIT_PROMPT_STAGED="${grn}●${reset}"
 #ZSH_THEME_GIT_PROMPT_UNSTAGED="${ylw}●${reset}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="${red}✭${reset}"
@@ -86,7 +86,7 @@ somber_git() {
     git_branch="$(git_prompt_info)"
 
     git_status="$(git_prompt_status)"
-    git_prompt="[ ${git_branch}${wht_bold}${git_status:-${grn_bold}✓${wht_bold}} ${reset}] "
+    git_prompt="[ ${git_branch}${wht_bold}${git_status} ${reset}] "
     echo -n $git_prompt
 }
 
@@ -117,9 +117,9 @@ somber_battery() {
         stat=$(echo $data | awk '{print tolower($3)}' | cut -d, -f1)
         if [[ $stat == "charging" ]]; then
             pcolor="${grn}"
-            charge='↟'
+            charge='⇡'
         else
-            charge='↡'
+            charge='⇣'
         fi
         percent="${percent}${charge}%%"
     fi
