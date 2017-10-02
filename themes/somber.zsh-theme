@@ -28,7 +28,7 @@ reset="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_PREFIX="${grn_bold}\ue0a0 ${wht}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="${reset} "
 
-ZSH_THEME_GIT_PROMPT_CLEAN="${grn}✓${reset}"
+ZSH_THEME_GIT_PROMPT_CLEAN="${grn}✓ ${reset}"
 #ZSH_THEME_GIT_PROMPT_DIRTY="${red}✘${reset}"
 
 ZSH_THEME_GIT_PROMPT_ADDED="${blu}✚${reset}"
