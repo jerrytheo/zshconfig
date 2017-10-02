@@ -28,7 +28,8 @@ reset="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_PREFIX="${grn_bold}\ue0a0 ${wht}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="${reset} "
 
-ZSH_THEME_GIT_PROMPT_CLEAN="${grn}✓ ${reset}"
+#ZSH_THEME_GIT_PROMPT_CLEAN="${grn}✓${reset}"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
 #ZSH_THEME_GIT_PROMPT_DIRTY="${red}✘${reset}"
 
 ZSH_THEME_GIT_PROMPT_ADDED="${blu}✚${reset}"
@@ -41,7 +42,7 @@ ZSH_THEME_GIT_PROMPT_DIVERGED_REMOTE="${red_bold}↕${reset}"
 
 ZSH_THEME_GIT_PROMPT_AHEAD="${cyn}⬆${reset}"
 ZSH_THEME_GIT_PROMPT_BEHIND="${mgt}⬇${reset}"
-#ZSH_THEME_GIT_PROMPT_STAGED="${grn}●${reset}"
+ZSH_THEME_GIT_PROMPT_STAGED="${grn}●${reset}"
 #ZSH_THEME_GIT_PROMPT_UNSTAGED="${ylw}●${reset}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="${red}✭${reset}"
 
@@ -86,7 +87,7 @@ somber_git() {
     git_branch="$(git_prompt_info)"
 
     git_status="$(git_prompt_status)"
-    git_prompt="[ ${git_branch}${wht_bold}${git_status} ${reset}] "
+    git_prompt="[ ${git_branch}${wht_bold} ${git_status} ${reset}] "
     echo -n $git_prompt
 }
 
