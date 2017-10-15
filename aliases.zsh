@@ -4,7 +4,7 @@
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
 alias ls='ls --color=auto'
-alias vi='vim'
+alias vi='gvim'
 alias clrz='colorize'
 alias py='python'
 
