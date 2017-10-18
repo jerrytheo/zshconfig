@@ -163,7 +163,7 @@ somber_prompt_sym() {
 
 forward_prompt() {
     local prompt
-    prompt='$(somber_battery)$(somber_user)$(somber_host)$(somber_dir) $(somber_prompt_sym) $(virtualenv_prompt_info)'
+    prompt='$(somber_battery) $(somber_user)$(somber_host)$(somber_dir) $(somber_prompt_sym) $(virtualenv_prompt_info)'
     echo -n $prompt
 }
 
