@@ -1,4 +1,4 @@
-# vim: set filetype=zsh
+# vim: set syntax=zsh
 
 ## Somber ZSH Theme - Modification of Bira
 ## Author: Jerry
@@ -102,7 +102,7 @@ somber_battery() {
     # Battery percentage
     if [[ $(echo $data | grep "Full") ]]; then
         pcolor=${grn}
-        percent=" "
+        percent=""
     else
         percent=$(echo $data | awk '{print $4}' | tr -d ,%)
         if [[ $percent -gt 60 ]]; then
@@ -154,9 +154,9 @@ somber_temperature() {
 somber_prompt_sym() {
     local user_symbol
     if [[ $UID -eq 0 ]]; then
-        user_symbol="%(?:${cyn}# :${red}# )${reset}"
+        user_symbol="%(?:${cyn}#:${red}#)${reset}"
     else
-        user_symbol="%(?:${cyn} :${red} )${reset}"
+        user_symbol="%(?:${cyn} :${red} )${reset}"
     fi
     echo -n $user_symbol
 }
