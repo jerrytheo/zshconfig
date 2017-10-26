@@ -102,7 +102,7 @@ somber_battery() {
     # Battery percentage
     if [[ $(echo $data | grep "Full") ]]; then
         pcolor=${grn}
-        percent=""
+        percent="A.C."
     else
         percent=$(echo $data | awk '{print $4}' | tr -d ,%)
         if [[ $percent -gt 60 ]]; then
@@ -163,7 +163,7 @@ somber_prompt_sym() {
 
 forward_prompt() {
     local prompt
-    prompt='$(somber_battery) $(somber_user)$(somber_host)$(somber_dir) $(somber_prompt_sym) $(virtualenv_prompt_info)'
+    prompt='$(somber_battery)$(somber_user)$(somber_host)$(somber_dir) $(somber_prompt_sym) $(virtualenv_prompt_info)'
     echo -n $prompt
 }
 
