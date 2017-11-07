@@ -1,5 +1,3 @@
-# vim: set syntax=zsh
-
 ## Somber ZSH Theme - Modification of Bira
 ## Author: Jerry
 
@@ -128,6 +126,14 @@ somber_battery() {
     echo -n $battery_info
 }
 
+somber_time() {
+    local colored_time
+    time_info=$(date +%H:%M)
+    colored_time="${mgt_bold}[${reset}at${mgt_bold} ${time_info}]${reset}"
+    echo -n $colored_time
+}
+
+
 somber_temperature() {
     local temperature
 
@@ -147,7 +153,7 @@ somber_temperature() {
         tcolor="${red}"
     fi
     temp=$(echo $temp | cut -d. -f1)
-    temperature="${tcolor}${temp}°${reset}"
+    temperature="${tcolor}[${temp}°]${reset}"
     echo -n $temperature
 }
 
@@ -168,7 +174,7 @@ forward_prompt() {
 }
 
 reverse_prompt() {
-    echo -n '$(somber_git)[$(somber_temperature)]'
+    echo -n '$(somber_git)$(somber_time) $(somber_temperature)'
 }
 
 PROMPT="$(forward_prompt)"
@@ -180,3 +186,5 @@ function zle-line-init zle-keymap-select {
     RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(reverse_prompt)"
     zle reset-prompt
 }
+
+# vim:filetype=zsh:ts=4:sw=4:expandtab
