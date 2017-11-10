@@ -36,7 +36,7 @@ plugins_non_root=(
     pip                 # clean cache, list clean pkgs.
     python              # pyfind, pyclean, pygrep.
     virtualenv          # virtualenv on prompt.
-    virtualenvwrapper   # workon_cwd
+#    virtualenvwrapper   # workon_cwd
 )
 
 [[ $UID -ne 0 ]] && plugins=($plugins[@] $plugins_non_root[@])
