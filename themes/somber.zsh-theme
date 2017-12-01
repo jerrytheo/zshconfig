@@ -42,7 +42,7 @@ ZSH_THEME_GIT_PROMPT_AHEAD="${cyn}▲${reset}"
 ZSH_THEME_GIT_PROMPT_BEHIND="${mgt}▼${reset}"
 ZSH_THEME_GIT_PROMPT_STAGED="${grn}●${reset}"
 #ZSH_THEME_GIT_PROMPT_UNSTAGED="${ylw} ●${reset}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="${ylw}●${reset}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="${red}≁${reset}"
 
 # Virtualenv settings {<venv>}.
 ZSH_THEME_VIRTUALENV_PREFIX="${mgt_bold}<<"
@@ -85,7 +85,7 @@ somber_git() {
     git_branch="$(git_prompt_info)"
 
     git_status="$(git_prompt_status)"
-    git_prompt="[ ${git_branch}${wht_bold}${git_status}${reset}] "
+    git_prompt="[${git_branch}${wht_bold}${git_status}${reset}] "
     echo -n $git_prompt
 }
 
@@ -170,12 +170,12 @@ somber_prompt_sym() {
 
 forward_prompt() {
     local prompt
-    prompt='$(somber_battery)$(somber_user)$(somber_host)$(somber_dir) $(somber_prompt_sym) $(virtualenv_prompt_info)'
+    prompt='$(somber_battery)$(somber_user)$(somber_host)$(somber_dir) $(somber_git)$(somber_prompt_sym) $(virtualenv_prompt_info)'
     echo -n $prompt
 }
 
 reverse_prompt() {
-    echo -n '$(somber_git)$(somber_time) $(somber_temperature)'
+    echo -n '$(somber_time) $(somber_temperature)'
 }
 
 PROMPT="$(forward_prompt)"
