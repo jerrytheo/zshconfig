@@ -19,7 +19,7 @@ export PATH=$PATH:$HOME/Android/Sdk/platform-tools
 export ZSH=$HOME/.oh-my-zsh
 
 # Some settings
-ZSH_THEME="somber"
+ZSH_THEME="spaceship"
 HIST_STAMPS="dd.mm.yyyy"
 ZSH_CUSTOM=$HOME/.zsh
 
@@ -61,3 +61,4 @@ unsetopt appendhistory autocd extendedglob notify
 bindkey -v
 # End of lines configured by zsh-newuser-install
 
+source "/home/jerry/.zsh/themes/spaceship.zsh-theme"

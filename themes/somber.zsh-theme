@@ -123,7 +123,7 @@ somber_battery() {
         percent="${percent}${charge}%%"
     fi
 
-    battery_info="${pcolor}[${wht_bold}on ${pcolor}${percent}]${reset}"
+    battery_info="${pcolor}[${wht_bold}on ${reset}${pcolor}${percent}]${reset}"
     echo -n $battery_info
 }
 
