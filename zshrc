@@ -9,6 +9,12 @@
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.bin
 
+# Android Studio
+export PATH=$PATH:$HOME/Software/android-studio/bin
+export PATH=$PATH:$HOME/Android/Sdk/tools/bin
+export PATH=$PATH:$HOME/Android/Sdk/platform-tools
+
+
 # Path to oh-my-zsh
 export ZSH=$HOME/.oh-my-zsh
 

@@ -163,7 +163,7 @@ somber_prompt_sym() {
     if [[ $UID -eq 0 ]]; then
         user_symbol="%(?:${cyn}#:${red}#)${reset}"
     else
-        user_symbol="%(?:${cyn} :${red} )${reset}"
+        user_symbol="%(?:${cyn}♠:${red}⚑)${reset}"
     fi
     echo -n $user_symbol
 }
