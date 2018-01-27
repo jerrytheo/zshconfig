@@ -8,7 +8,7 @@ alias vi='vim'
 alias gv='gvim'
 alias catc='colorize'
 alias py='python'
-alias nvimrc='nvim ~/.config/nvim/init.vim'
+alias virc='gvim ~/.vimrc'
 
 if [[ $UID -ne 0 ]]; then
     alias svim='sudo vim'

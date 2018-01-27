@@ -5,52 +5,56 @@
 ## Requires: oh-my-zsh
 ## 
 
-# Path
-export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:$HOME/.bin
+# Initial setup
+# =============
 
-# Android Studio
-export PATH=$PATH:$HOME/Software/android-studio/bin
-export PATH=$PATH:$HOME/Android/Sdk/tools/bin
-export PATH=$PATH:$HOME/Android/Sdk/platform-tools
-
-
-# Path to oh-my-zsh
-export ZSH=$HOME/.oh-my-zsh
-
-# Some settings
-ZSH_THEME="spaceship"
-HIST_STAMPS="dd.mm.yyyy"
 ZSH_CUSTOM=$HOME/.zsh
+for file in $ZSH_CUSTOM/*.zsh; do
+	source $file
+done
+HIST_STAMPS="dd.mm.yyyy"
+
 
 # Plugins
-plugins=(
-    battery             # convenient functions for prompt.
-    colored-man-pages   # as it says.
-    colorize            # colorized cat.
-    cp                  # cp with progress (rsync)
-    vi-mode             # some stuff.
-    web-search          # search online.
-)
+# =======
 
-plugins_non_root=(
-    archlinux           # pacman, pacaur aliases; pacdisowned, paclist
-    command-not-found   # suggest new command.
-    extract             # swiss army knife (or so they say).
-    git                 # way too many to bother.
-    kate                # kate, kt.
-    pip                 # clean cache, list clean pkgs.
-    python              # pyfind, pyclean, pygrep.
-    virtualenv          # virtualenv on prompt.
-#    virtualenvwrapper   # workon_cwd
-)
+# oh-my-zsh plugins {{{
+antigen use oh-my-zsh
 
-[[ $UID -ne 0 ]] && plugins=($plugins[@] $plugins_non_root[@])
-source $ZSH/oh-my-zsh.sh
+antigen bundle battery             # convenient functions for prompt.
+antigen bundle colored-man-pages   # as it says.
+antigen bundle colorize            # colorized cat.
+antigen bundle cp                  # cp with progress (rsync)
+antigen bundle vi-mode             # some stuff.
 
-# =====
+# Plugins for non-root users.
+if [[ $UID -ne 0  ]]; then
+	antigen bundle autojump 			# faster directory traversing.
+	antigen bundle autopep8 			# completion for the pep8 tool.
+    antigen bundle command-not-found   	# suggest new command.
+	antigen bundle debian 				# aliases for apt.
+    antigen bundle extract             	# swiss army knife (or so they say).
+    antigen bundle git                 	# way too many to bother.
+	antigen bundle jsontools 			# display/validate JSON.
+	antigen bundle npm 					# completion for npm.
+    antigen bundle pip                 	# clean cache, list clean pkgs.
+    antigen bundle python              	# pyfind, pyclean, pygrep.
+	antigen bundle sudo 				# put sudo in front of command.
+    antigen bundle web-search          	# search online.
+fi
+# }}}
+# the other plugins {{{
+antigen bundle chrissicool/zsh-256color 		# 256 colors on terminal.
+antigen bundle hlissner/zsh-autopair 			# easier delimiter handling.
+antigen bundle djui/alias-tips 					# specifies if alias defined.
+antigen bundle zsh-users/zsh-syntax-highlighting 	# syntax coloring
+antigen theme geometry-zsh/geometry 			# A cool theme.
+# }}}
+antigen apply
 
-# My settings
+
+# Install Settings
+# ================
 
 # Lines configured by zsh-newuser-install
 HISTFILE=$HOME/.histfile
@@ -60,5 +64,3 @@ setopt nomatch
 unsetopt appendhistory autocd extendedglob notify
 bindkey -v
 # End of lines configured by zsh-newuser-install
-
-source "/home/jerry/.zsh/themes/spaceship.zsh-theme"
