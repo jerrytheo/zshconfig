@@ -48,13 +48,12 @@ antigen bundle chrissicool/zsh-256color 		# 256 colors on terminal.
 antigen bundle hlissner/zsh-autopair 			# easier delimiter handling.
 antigen bundle djui/alias-tips 					# specifies if alias defined.
 antigen bundle zsh-users/zsh-syntax-highlighting 	# syntax coloring
-antigen theme geometry-zsh/geometry 			# A cool theme.
 # }}}
 antigen apply
 
 
-# Install Settings
-# ================
+# Post-plugin setup
+# =================
 
 # Lines configured by zsh-newuser-install
 HISTFILE=$HOME/.histfile
@@ -64,3 +63,10 @@ setopt nomatch
 unsetopt appendhistory autocd extendedglob notify
 bindkey -v
 # End of lines configured by zsh-newuser-install
+fpath=($fpath "/home/jerry/.zfunctions")
+
+# Set Spaceship ZSH as a prompt
+autoload -U promptinit; promptinit
+prompt spaceship
+
+# vim:foldmethod=marker

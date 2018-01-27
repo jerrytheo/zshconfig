@@ -13,5 +13,5 @@ alias virc='gvim ~/.vimrc'
 if [[ $UID -ne 0 ]]; then
     alias svim='sudo vim'
     alias ipy='ipython'
-    alias pipi='pip intall --user'
+    alias pipi='pip3 install --user'
 fi
