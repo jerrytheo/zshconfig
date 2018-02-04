@@ -2,32 +2,33 @@
 
 ##
 ## Jerry's zsh config file.
-## Requires: oh-my-zsh
 ## 
 
 # Initial setup
 # =============
 
 ZSH_CUSTOM=$HOME/.zsh
+ZSH_EXTTHEME="minimal"
 ZSH_SCRIPTS=(
 	'aliases.zsh'			# common aliases to use.
 	'antigen.zsh'			# the antigen file.
 	'completion.zsh'		# autocomplete settings.
 	'environment.zsh'		# environment variables.
 	'key-bindings.zsh'		# helpful keybindings.
-	'spaceship.zsh'			# edits to default spaceship.
 )
 for _script in $ZSH_SCRIPTS; do
 	source $ZSH_CUSTOM/$_script
 done
+
 # Check if a system specific file exists and source it.
 # The commands in this file are not saved in to remote.
 [[ -e $ZSH_CUSTOM/specific.zsh ]] && source $ZSH_CUSTOM/specific.zsh
 
 # Pre-plugins
+ANTIGEN_CACHE=$HOME/.antigen/init-${ZSH_EXTTHEME}.zsh
 HIST_STAMPS="dd.mm.yyyy"
 fpath=($fpath "/home/jerry/.zfunctions")
-
+autoload -U promptinit; promptinit
 
 # Plugins
 # =======
@@ -35,36 +36,44 @@ fpath=($fpath "/home/jerry/.zfunctions")
 # oh-my-zsh plugins {{{
 antigen use oh-my-zsh
 
-antigen bundle battery             # convenient functions for prompt.
-antigen bundle colored-man-pages   # as it says.
-antigen bundle colorize            # colorized cat.
-antigen bundle cp                  # cp with progress (rsync)
-antigen bundle vi-mode             # some stuff.
+antigen bundles <<EOBUNDLES
+	battery             # convenient functions for prompt.
+	colored-man-pages   # as it says.
+	colorize            # colorized cat.
+	cp                  # cp with progress (rsync)
+	vi-mode             # some stuff.
+EOBUNDLES
 
 # Plugins for non-root users.
-if [[ $UID -ne 0  ]]; then
-	antigen bundle autojump 			# faster directory traversing.
-	antigen bundle autopep8 			# completion for the pep8 tool.
-    antigen bundle command-not-found   	# suggest new command.
-	antigen bundle debian 				# aliases for apt.
-    antigen bundle extract             	# swiss army knife (or so they say).
-    antigen bundle git                 	# way too many to bother.
-	antigen bundle jsontools 			# display/validate JSON.
-	antigen bundle npm 					# completion for npm.
-    antigen bundle pip                 	# clean cache, list clean pkgs.
-    antigen bundle python              	# pyfind, pyclean, pygrep.
-	antigen bundle sudo 				# put sudo in front of command.
-    antigen bundle web-search          	# search online.
-fi
+[[ $UID -ne 0  ]] && antigen bundles <<EOBUNDLES
+		autojump 			# faster directory traversing.
+		autopep8 			# completion for the pep8 tool.
+    	command-not-found   # suggest new command.
+		debian 				# aliases for apt.
+    	extract             # swiss army knife (or so they say).
+    	git                 # way too many to bother.
+		jsontools 			# display/validate JSON.
+		npm 				# completion for npm.
+    	pip                 # clean cache, list clean pkgs.
+    	python              # pyfind, pyclean, pygrep.
+		sudo 				# put sudo in front of command.
+    	web-search          # search online.
+EOBUNDLES
 # }}}
 # the other plugins {{{
-antigen bundle chrissicool/zsh-256color 		# 256 colors on terminal.
-antigen bundle hlissner/zsh-autopair 			# easier delimiter handling.
-antigen bundle djui/alias-tips 					# specifies if alias defined.
-antigen bundle zsh-users/zsh-syntax-highlighting 	# syntax coloring
-antigen bundle zsh-users/zsh-autosuggestions	# autosuggest
-# }}}
-antigen apply
+antigen bundles <<EOBUNDLES
+	chrissicool/zsh-256color 			# 256 colors on terminal.
+	hlissner/zsh-autopair 				# easier delimiter handling.
+	djui/alias-tips 					# specifies if alias defined.
+	zsh-users/zsh-syntax-highlighting 	# syntax coloring
+	zsh-users/zsh-autosuggestions		# autosuggest
+EOBUNDLES
+
+# The theme script also runs antigen apply.
+source $ZSH_CUSTOM/theme.zsh $ZSH_EXTTHEME
+
+
+# (Alternate cool themes: eendroroy/alien-minimal, spaceship, powerlevel9k)
 
 
 # Post-plugin setup
@@ -80,7 +89,6 @@ bindkey -v
 # End of lines configured by zsh-newuser-install
 
 # Set prompt
-autoload -U promptinit; promptinit
-prompt spaceship
+# prompt spaceship
 
 # vim:foldmethod=marker
