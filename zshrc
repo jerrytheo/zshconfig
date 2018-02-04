@@ -9,10 +9,24 @@
 # =============
 
 ZSH_CUSTOM=$HOME/.zsh
-for file in $ZSH_CUSTOM/*.zsh; do
-	source $file
+ZSH_SCRIPTS=(
+	'aliases.zsh'			# common aliases to use.
+	'antigen.zsh'			# the antigen file.
+	'completion.zsh'		# autocomplete settings.
+	'environment.zsh'		# environment variables.
+	'key-bindings.zsh'		# helpful keybindings.
+	'spaceship.zsh'			# edits to default spaceship.
+)
+for _script in $ZSH_SCRIPTS; do
+	source $ZSH_CUSTOM/$_script
 done
+# Check if a system specific file exists and source it.
+# The commands in this file are not saved in to remote.
+[[ -e $ZSH_CUSTOM/specific.zsh ]] && source $ZSH_CUSTOM/specific.zsh
+
+# Pre-plugins
 HIST_STAMPS="dd.mm.yyyy"
+fpath=($fpath "/home/jerry/.zfunctions")
 
 
 # Plugins
@@ -48,6 +62,7 @@ antigen bundle chrissicool/zsh-256color 		# 256 colors on terminal.
 antigen bundle hlissner/zsh-autopair 			# easier delimiter handling.
 antigen bundle djui/alias-tips 					# specifies if alias defined.
 antigen bundle zsh-users/zsh-syntax-highlighting 	# syntax coloring
+antigen bundle zsh-users/zsh-autosuggestions	# autosuggest
 # }}}
 antigen apply
 
@@ -63,11 +78,9 @@ setopt nomatch
 unsetopt appendhistory autocd extendedglob notify
 bindkey -v
 # End of lines configured by zsh-newuser-install
-fpath=($fpath "/home/jerry/.zfunctions")
 
-# Set Spaceship ZSH as a prompt
+# Set prompt
 autoload -U promptinit; promptinit
 prompt spaceship
-fpath=($fpath "/home/jerry/.zfunctions")
 
 # vim:foldmethod=marker
