@@ -1,14 +1,15 @@
-#!/bin/zsh
+## The zshrc.
+## Entry point to my configuration.
+## Symlink this file to $HOME/.zsh.
 
-##
-## Jerry's zsh config file.
-## 
 
 # Initial setup
 # =============
 
-ZSH_CUSTOM=$HOME/.zsh
+# Themes this will configure:
+#	alien-minimal, minimal, spaceship, powerlevel9k
 ZSH_EXTTHEME="minimal"
+ZSH_CUSTOM=$HOME/.zsh
 ZSH_SCRIPTS=(
 	'aliases.zsh'			# common aliases to use.
 	'antigen.zsh'			# the antigen file.
@@ -27,8 +28,9 @@ done
 # Pre-plugins
 ANTIGEN_CACHE=$HOME/.antigen/init-${ZSH_EXTTHEME}.zsh
 HIST_STAMPS="dd.mm.yyyy"
-fpath=($fpath "/home/jerry/.zfunctions")
+fpath=($fpath "$HOME/.zfunctions")
 autoload -U promptinit; promptinit
+
 
 # Plugins
 # =======
@@ -69,11 +71,8 @@ antigen bundles <<EOBUNDLES
 	zsh-users/zsh-autosuggestions		# autosuggest
 EOBUNDLES
 
-# The theme script also runs antigen apply.
 source $ZSH_CUSTOM/theme.zsh $ZSH_EXTTHEME
-
-
-# (Alternate cool themes: eendroroy/alien-minimal, spaceship, powerlevel9k)
+antigen apply
 
 
 # Post-plugin setup
@@ -88,7 +87,5 @@ unsetopt appendhistory autocd extendedglob notify
 bindkey -v
 # End of lines configured by zsh-newuser-install
 
-# Set prompt
-# prompt spaceship
 
 # vim:foldmethod=marker

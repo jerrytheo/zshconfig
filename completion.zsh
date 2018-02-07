@@ -1,4 +1,5 @@
-#!/bin/zsh
+## Sets up the completer.
+## These lines were added during the initial setup of zsh on my system.
 
 # The following lines were added by compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _approximate

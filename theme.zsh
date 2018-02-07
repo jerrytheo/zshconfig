@@ -1,17 +1,17 @@
-#!/bin/zsh
+## Set up different theme custom configurations.
+## Supported themes: alien-minimal, minimal, powerlevel9k,
+##      spaceship.
 
 case $1 in
 
     alien-minimal)
         antigen theme eendroroy/alien-minimal alien-minimal
-		antigen apply
         ;;
     
     minimal)
         MNML_INFOLN=(mnml_err mnml_jobs mnml_files)
         MNML_MAGICENTER=(mnml_me_git)
         antigen theme subnixr/minimal
-		antigen apply
 		;;
 
     powerlevel9k)
@@ -28,11 +28,9 @@ case $1 in
             nodeenv     battery
         )
         antigen theme bhilburn/powerlevel9k powerlevel9k
-		antigen apply
 		;;
 
     spaceship)
-        antigen apply
         SPACESHIP_PROMPT_ORDER=(
             time        user        host
             dir         git         hg
@@ -50,7 +48,7 @@ case $1 in
         SPACESHIP_PROMPT_ADD_NEWLINE=false
         SPACESHIP_PROMPT_SEPARATE_LINE=false
         SPACESHIP_EXIT_CODE_SHOW=true
-		prompt spaceship
+        antigen theme denysdovhan/spaceship-prompt spaceship
 		;;
 
     *)

@@ -1,4 +1,4 @@
-#!/bin/zsh
+## Convenient key bindings to use with vim mode.
 
 # Use vim cli mode
 bindkey '^P' up-history
