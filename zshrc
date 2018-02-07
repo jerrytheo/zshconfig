@@ -15,7 +15,7 @@ ZSH_SCRIPTS=(
 	'antigen.zsh'			# the antigen file.
 	'completion.zsh'		# autocomplete settings.
 	'environment.zsh'		# environment variables.
-	'key-bindings.zsh'		# helpful keybindings.
+	'keybindings.zsh'		# helpful keybindings.
 )
 for _script in $ZSH_SCRIPTS; do
 	source $ZSH_CUSTOM/$_script
