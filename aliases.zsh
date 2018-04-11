@@ -6,6 +6,7 @@ alias ls='ls --color=auto'
 alias vi='vim'
 alias gv='gvim'
 alias catc='colorize'
+alias cls='clear'
 
 # Set py to python3 on systems with python 2 as default.
 pyv=`python --version 2>&1`
