@@ -5,13 +5,13 @@
 case $1 in
 
     alien-minimal)
-        antigen theme eendroroy/alien-minimal alien-minimal
+        zplug eendroroy/alien-minimal
         ;;
     
     minimal)
         MNML_INFOLN=(mnml_err mnml_jobs mnml_files)
         MNML_MAGICENTER=(mnml_me_git)
-        antigen theme subnixr/minimal
+        zplug subnixr/minimal
 		;;
 
     powerlevel9k)
@@ -27,7 +27,7 @@ case $1 in
             history     virtualenv
             nodeenv     battery
         )
-        antigen theme bhilburn/powerlevel9k powerlevel9k
+        zplug bhilburn/powerlevel9k
 		;;
 
     spaceship)
@@ -48,7 +48,7 @@ case $1 in
         SPACESHIP_PROMPT_ADD_NEWLINE=false
         SPACESHIP_PROMPT_SEPARATE_LINE=false
         SPACESHIP_EXIT_CODE_SHOW=true
-        antigen theme denysdovhan/spaceship-prompt spaceship
+        zplug denysdovhan/spaceship-prompt
 		;;
 
     *)
