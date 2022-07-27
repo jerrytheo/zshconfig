@@ -6,9 +6,14 @@
 > Replaced antigen as it is no longer maintained.
 
 ## Instructions
+1. Install zplug using one of the commands below:
+```zsh
+$ curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+$ sudo apt install zplug
+```
+2. Clone and initialize the repo.
 ```zsh
 $ git clone https://github.com/jerrytheo/zshconfig.git $HOME/.zsh
-$ curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 $ ln -s $HOME/.zsh/zshrc $HOME/.zshrc
 ```
 

@@ -30,7 +30,12 @@ fpath=($fpath "$HOME/.zfunctions")
 autoload -U promptinit; promptinit
 
 # Setup zplug
-source $HOME/.zplug/init.zsh
+ZPLUG_DIR=$HOME/.zplug/init.zsh
+if [[ ! -a $ZPLUG_DIR ]]; then
+  ZPLUG_DIR=/usr/share/zplug/init.zsh
+fi
+source $ZPLUG_DIR
+
 
 # Plugins
 # =======
