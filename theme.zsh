@@ -7,7 +7,7 @@ case $1 in
     alien-minimal)
         zplug eendroroy/alien-minimal
         ;;
-    
+
     minimal)
         MNML_INFOLN=(mnml_err mnml_jobs mnml_files)
         MNML_MAGICENTER=(mnml_me_git)
@@ -31,24 +31,12 @@ case $1 in
 		;;
 
     spaceship)
-        SPACESHIP_PROMPT_ORDER=(
-            time        user        host
-            dir         git         hg
-            package     node        ruby
-            elixir      xcode       swift
-            golang      php         rust
-            haskell     julia       docker
-            aws         venv        conda
-            pyenv       dotnet      ember
-            kubecontext exec_time   line_sep
-            vi_mode     jobs        exit_code
-            char
-        )
-        SPACESHIP_CHAR_SUFFIX=" "
-        SPACESHIP_PROMPT_ADD_NEWLINE=false
-        SPACESHIP_PROMPT_SEPARATE_LINE=false
+        zplug "spaceship-prompt/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
         SPACESHIP_EXIT_CODE_SHOW=true
-        zplug denysdovhan/spaceship-prompt
+        SPACESHIP_AZURE_SYMBOL="󰅟 "
+        SPACESHIP_RPROMPT_ORDER=(
+            azure
+        )
 		;;
 
     *)

@@ -10,9 +10,17 @@ export PATH=$PATH:$HOME/.bin
 
 # Misc
 export EDITOR="vim"
-export LANG="en_IN.UTF-8"                       # Indian locale. Change this to suit you.
-export ARCHFLAGS="-arch x86_64"                 # compilation flags
+export ARCHFLAGS=-`uname -m`                 # compilation flags
 
 if [[ $UID -ne 0 ]]; then
     export SSH_KEY_PATH="$HOME/.ssh/rsa_id"     # ssh
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"

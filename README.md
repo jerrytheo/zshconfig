@@ -55,5 +55,13 @@ $ ln -s $HOME/.zsh/zshrc $HOME/.zshrc
 | `zsh-users/zsh-syntax-highlighting` | syntax coloring                       |
 | `zsh-users/zsh-autosuggestions`     | autosuggest                           |
 
+### Dependencies needed for all tools
+1. Python
+2. [Nerd Font](https://www.nerdfonts.com/font-downloads)
+3. The Silver Searcher
+
+#### Mac
+1. `terminal-notifier`
+
 ## License
 Licensed under MIT License. See LICENSE.
